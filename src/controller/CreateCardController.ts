@@ -15,10 +15,7 @@ export async function CreateCard(req: Request, res: Response) {
   }
   const randomCvc = faker.finance.creditCardCVV();
   const randomNumberCard = faker.finance.creditCardNumber(" ");
-  const verifyCardType = await CardServices.verifyAlreadyCardTypeExist(
-    type,
-    id
-  );
+  await CardServices.verifyAlreadyCardTypeExist(type, id);
   const expireDate = CardServices.expireDateCard();
   const formatterName = CardServices.nameFormatter(name);
   const encryptCvc = CardServices.encryptCvc(randomCvc);
@@ -29,9 +26,9 @@ export async function CreateCard(req: Request, res: Response) {
     securityCode: encryptCvc,
     expirationDate: expireDate,
     isVirtual: false,
-    isBlocked: true,
+    isBlocked: false,
     type,
   };
   const CreateCard = await CardServices.InsertCard(card);
-  res.status(201).send(CreateCard);
+  res.status(201).send({ numberCard: card.number, cvc: randomCvc });
 }

@@ -36,14 +36,10 @@ export function expireDateCard() {
 }
 export function encryptCvc(cvc: string) {
   const cryptr = new Cryptr(process.env.ENCRYPTCVC);
-  const encryptedString = cryptr.encrypt("bacon");
+  const encryptedString = cryptr.encrypt(cvc);
   return encryptedString;
 }
-export function descryptedCvc(encrypt: string) {
-  const cryptr = new Cryptr(process.env.ENCRYPTCVC);
-  const decryptedString = cryptr.decrypt(encrypt);
-  return decryptedString;
-}
+
 export async function InsertCard(card: CardInsertData) {
   const CreateCard = await insert(card);
   return CreateCard;
