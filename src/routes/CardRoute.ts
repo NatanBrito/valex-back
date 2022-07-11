@@ -8,7 +8,7 @@ const cardRouter = Router();
 
 cardRouter.post(
   "/create-card",
-  // schemaValidateMiddleware(bodySchema),
+  schemaValidateMiddleware(bodySchema),
   CreateCard
 );
 export default cardRouter;

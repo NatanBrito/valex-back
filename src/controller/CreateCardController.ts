@@ -33,5 +33,5 @@ export async function CreateCard(req: Request, res: Response) {
     type,
   };
   const CreateCard = await CardServices.InsertCard(card);
-  res.status(202).send(CreateCard);
+  res.status(201).send(CreateCard);
 }
