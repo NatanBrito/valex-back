@@ -7,11 +7,14 @@ export function descryptedCvc(encrypt: string) {
   return decryptedString;
 }
 
-export async function findCard(
+export async function findCardRegister(
   number: string,
   name: string,
   expirateDate: string
 ) {
-  const xx = await findByCardDetails(number, name, expirateDate);
-  return xx;
+  const findCardRegister = await findByCardDetails(number, name, expirateDate);
+  if (!findCardRegister) {
+    throw { type: "NOTFOUND", status: 404, message: "not found card register" };
+  }
+  return findCardRegister;
 }
