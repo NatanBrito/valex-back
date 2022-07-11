@@ -21,5 +21,17 @@ export async function CreateCard(req: Request, res: Response) {
   );
   const expireDate = CardServices.expireDateCard();
   const formatterName = CardServices.nameFormatter(name);
-  res.status(200).send(expireDate);
+  const encryptCvc = CardServices.encryptCvc(randomCvc);
+  const card = {
+    employeeId: id,
+    number: randomNumberCard,
+    cardholderName: formatterName,
+    securityCode: encryptCvc,
+    expirationDate: expireDate,
+    isVirtual: false,
+    isBlocked: true,
+    type,
+  };
+  const CreateCard = await CardServices.InsertCard(card);
+  res.status(202).send(CreateCard);
 }

@@ -1,7 +1,11 @@
 import dayjs from "dayjs";
+import Cryptr from "cryptr";
+
 import {
   findByTypeAndEmployeeId,
   TransactionTypes,
+  insert,
+  CardInsertData,
 } from "../repositories/cardRepository.js";
 
 export const nameFormatter = (name: string) => {
@@ -29,4 +33,18 @@ export async function verifyAlreadyCardTypeExist(
 export function expireDateCard() {
   const date = dayjs().add(5, "year").format("MM-YY");
   return date;
+}
+export function encryptCvc(cvc: string) {
+  const cryptr = new Cryptr(process.env.ENCRYPTCVC);
+  const encryptedString = cryptr.encrypt("bacon");
+  return encryptedString;
+}
+export function descryptedCvc(encrypt: string) {
+  const cryptr = new Cryptr(process.env.ENCRYPTCVC);
+  const decryptedString = cryptr.decrypt(encrypt);
+  return decryptedString;
+}
+export async function InsertCard(card: CardInsertData) {
+  const CreateCard = await insert(card);
+  return CreateCard;
 }
