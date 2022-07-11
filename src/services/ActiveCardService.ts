@@ -14,7 +14,11 @@ export async function findCardRegister(
 ) {
   const findCardRegister = await findByCardDetails(number, name, expirateDate);
   if (!findCardRegister) {
-    throw { type: "NOTFOUND", status: 404, message: "not found card register" };
+    throw {
+      type: "NOTFOUND",
+      status: 401,
+      message: "unauthorized card, not found card register",
+    };
   }
   return findCardRegister;
 }

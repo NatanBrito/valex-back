@@ -26,7 +26,12 @@ export async function activeCard(req: Request, res: Response) {
   const decrypt = ActiveCardService.descryptedCvc(
     verifyExistCardRegister.securityCode
   );
-  if (!(decrypt == cvc)) {
+  // if (!(decrypt == cvc)) {
+  //   return res.status(401).send("data not compatible");
+  // }
+  if (verifyExistCardRegister.password !== null) {
+    return res.status(401).send("card has already been registered");
   }
+
   res.status(200).send(verifyExistCardRegister);
 }
