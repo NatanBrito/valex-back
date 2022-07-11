@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import {
   findByTypeAndEmployeeId,
   TransactionTypes,
@@ -23,4 +24,9 @@ export async function verifyAlreadyCardTypeExist(
   if (verifyCardType)
     throw { type: "conflict", status: 409, message: "already this card type" };
   return verifyCardType;
+}
+
+export function expireDateCard() {
+  const date = dayjs().add(5, "year").format("MM-YY");
+  return date;
 }

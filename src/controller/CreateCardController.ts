@@ -19,6 +19,7 @@ export async function CreateCard(req: Request, res: Response) {
     type,
     id
   );
+  const expireDate = CardServices.expireDateCard();
   const formatterName = CardServices.nameFormatter(name);
-  res.status(200).send(formatterName);
+  res.status(200).send(expireDate);
 }
