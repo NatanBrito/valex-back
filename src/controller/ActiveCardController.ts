@@ -9,13 +9,14 @@ export async function activeCard(req: Request, res: Response) {
     CardHolderName,
     expirateDate,
     cvc,
+    password,
   }: {
     cardNumber: string;
     CardHolderName: string;
     expirateDate: string;
     cvc: string;
+    password: string;
   } = req.body;
-  // descrypt para fazer a comparaçao
   // trazer a function do service e comparar
   const verifyExistCardRegister = await ActiveCardService.findCardRegister(
     cardNumber,
@@ -25,8 +26,7 @@ export async function activeCard(req: Request, res: Response) {
   const decrypt = ActiveCardService.descryptedCvc(
     verifyExistCardRegister.securityCode
   );
-  if (decrypt == cvc) {
-    console.log("deu certo");
+  if (!(decrypt == cvc)) {
   }
   res.status(200).send(verifyExistCardRegister);
 }
