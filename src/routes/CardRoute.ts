@@ -1,12 +1,15 @@
 import { Router } from "express";
 
+import schemaValidateMiddleware from "../middlewares/SchemaValidateMiddleware.js";
+
 import { activeCard } from "../controller/ActiveCardController.js";
+import BankStatement from "../controller/BankStatementController.js";
 import { blockCard } from "../controller/BlockCardController.js";
 import { CreateCard } from "../controller/CreateCardController.js";
 import { Purchase } from "../controller/PurchasesController.js";
 import { rechargeCard } from "../controller/RechargeCardController.js";
 import { UnlockCard } from "../controller/UnlockCardController.js";
-import schemaValidateMiddleware from "../middlewares/SchemaValidateMiddleware.js";
+
 import { ActiveCardSchema } from "../schemas/activeCardSchema.js";
 import { BlockUnlockCardSchema } from "../schemas/blockUnlockCardSchema.js";
 import { bodySchema } from "../schemas/CreateSchema.js";
@@ -45,4 +48,5 @@ cardRouter.post(
   schemaValidateMiddleware(purchaseCardSchema),
   Purchase
 );
+cardRouter.get("/bankstatement/:cardId", BankStatement);
 export default cardRouter;

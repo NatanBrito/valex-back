@@ -86,3 +86,20 @@ export async function insertPayment(payment: paymentService.PaymentInsertData) {
   await paymentService.insert(payment);
   return true;
 }
+export async function Amount(balanceMoney: any) {
+  let amount = balanceMoney.map((money: any) => {
+    return money.amount;
+  });
+  const balance = amount.reduce((contador: number, curr: any) => {
+    return contador + curr;
+  });
+  return balance;
+}
+export async function Balance(cardId: number) {
+  const verifyBalance = await findByCardId(cardId);
+  return verifyBalance;
+}
+export async function Purchases(cardId: number) {
+  const allPurchases = await paymentService.findByCardId(cardId);
+  return allPurchases;
+}

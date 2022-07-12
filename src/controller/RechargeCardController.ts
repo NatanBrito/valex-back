@@ -20,7 +20,7 @@ export async function rechargeCard(req: Request, res: Response) {
     return res.status(401).send("card unauthorized");
   }
   verifyService.ValidateExpireDate(verifyCardRegister.expirationDate);
-  const rechargeData = { cardId, amount };
+  const rechargeData: { cardId: number; amount: number } = { cardId, amount };
   await cardService.recharge(rechargeData);
   res.status(200).send("recharge done");
 }
