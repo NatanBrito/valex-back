@@ -16,8 +16,9 @@ export async function rechargeCard(req: Request, res: Response) {
   if (!(verifyApiKeyExist.id === ValidateEmployeeValid.companyId)) {
     return res.status(409).send(" not your employee");
   }
-  if (verifyCardRegister.isBlocked)
+  if (verifyCardRegister.isBlocked || verifyCardRegister.password === null) {
     return res.status(401).send("card unauthorized");
+  }
   verifyService.ValidateExpireDate(verifyCardRegister.expirationDate);
   const rechargeData = { cardId, amount };
   await cardService.recharge(rechargeData);
