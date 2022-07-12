@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 
-// import * as verifyServices from "../services/ValidationService.js";
+import { CardUpdateData } from "../repositories/cardRepository.js";
 import * as ActiveCardService from "../services/ActiveCardService.js";
+import * as CardService from "../services/CardService.js";
 
 export async function activeCard(req: Request, res: Response) {
   const {
@@ -17,21 +18,29 @@ export async function activeCard(req: Request, res: Response) {
     cvc: string;
     password: string;
   } = req.body;
-  // trazer a function do service e comparar
   const verifyExistCardRegister = await ActiveCardService.findCardRegister(
     cardNumber,
     CardHolderName,
     expirateDate
   );
+  ActiveCardService.ValidateExpireDate(verifyExistCardRegister.expirationDate);
+
   const decrypt = ActiveCardService.descryptedCvc(
     verifyExistCardRegister.securityCode
   );
-  // if (!(decrypt == cvc)) {
-  //   return res.status(401).send("data not compatible");
-  // }
+  if (!(decrypt == cvc)) {
+    return res.status(401).send("data about card not compatible");
+  }
+  // TODO:  colocar esses ifs em services
   if (verifyExistCardRegister.password !== null) {
     return res.status(401).send("card has already been registered");
   }
+  const encryptPassword = CardService.encrypt(password);
+  const card: CardUpdateData = {
+    ...verifyExistCardRegister,
+    password: encryptPassword,
+  };
 
-  res.status(200).send(verifyExistCardRegister);
+  await ActiveCardService.activeCardEmployee(verifyExistCardRegister.id, card);
+  res.sendStatus(201);
 }

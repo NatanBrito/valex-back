@@ -18,7 +18,7 @@ export async function CreateCard(req: Request, res: Response) {
   await CardServices.verifyAlreadyCardTypeExist(type, id);
   const expireDate = CardServices.expireDateCard();
   const formatterName = CardServices.nameFormatter(name);
-  const encryptCvc = CardServices.encryptCvc(randomCvc);
+  const encryptCvc = CardServices.encrypt(randomCvc);
   const card = {
     employeeId: id,
     number: randomNumberCard,

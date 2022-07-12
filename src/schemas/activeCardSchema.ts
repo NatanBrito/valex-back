@@ -9,5 +9,7 @@ export const ActiveCardSchema = Joi.object({
   CardHolderName: Joi.string().required(),
   expirateDate: Joi.date().format("MM-YY"),
   cvc: Joi.string().length(3).required(),
-  password: Joi.string().length(4).required(),
+  password: Joi.string()
+    .regex(/^[0-9]{4}$/)
+    .required(),
 });

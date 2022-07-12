@@ -34,9 +34,9 @@ export function expireDateCard() {
   const date = dayjs().add(5, "year").format("MM-YY");
   return date;
 }
-export function encryptCvc(cvc: string) {
-  const cryptr = new Cryptr(process.env.ENCRYPTCVC);
-  const encryptedString = cryptr.encrypt(cvc);
+export function encrypt(arg: string) {
+  const cryptr = new Cryptr(process.env.ENCRYPT);
+  const encryptedString = cryptr.encrypt(arg);
   return encryptedString;
 }
 
