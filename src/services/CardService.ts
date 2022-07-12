@@ -1,7 +1,9 @@
 import dayjs from "dayjs";
 
 import * as cardRepository from "../repositories/cardRepository.js";
-import { insert } from "../repositories/rechargeRepository.js";
+import { insert, findByCardId } from "../repositories/rechargeRepository.js";
+import { findById } from "../repositories/businessRepository.js";
+import * as paymentService from "../repositories/paymentRepository.js";
 
 export const nameFormatter = (name: string) => {
   const nameArr = name.toUpperCase().split(" ");
@@ -51,4 +53,36 @@ export async function BlockCard(
 
 export async function recharge(data: { cardId: number; amount: number }) {
   await insert(data);
+}
+export async function findBusinessById(businessId: number) {
+  const find = await findById(businessId);
+  if (!find)
+    throw { type: "NotFound", status: 404, message: "business not found" };
+  return find;
+}
+export function verifyType(cardType: string, businessType: string) {
+  if (cardType !== businessType) {
+    throw {
+      type: "NotFound",
+      status: 401,
+      message: "unauthorized purchase, card type invalid",
+    };
+  }
+  return true;
+}
+export async function verifyEnoughBalance(cardId: number, amount: number) {
+  const verifyBalance = await findByCardId(cardId);
+  let amountBalance = verifyBalance.map((money) => {
+    return money.amount;
+  });
+  const balance = amountBalance.reduce((contador: number, curr: any) => {
+    return contador + curr;
+  });
+  if (balance < amount)
+    throw { type: "unauthorized", status: 401, message: "insufficient funds" };
+  return balance;
+}
+export async function insertPayment(payment: paymentService.PaymentInsertData) {
+  await paymentService.insert(payment);
+  return true;
 }
