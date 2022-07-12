@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 
 import * as cardRepository from "../repositories/cardRepository.js";
+import { insert } from "../repositories/rechargeRepository.js";
 
 export const nameFormatter = (name: string) => {
   const nameArr = name.toUpperCase().split(" ");
@@ -46,4 +47,8 @@ export async function BlockCard(
 ) {
   await cardRepository.update(id, card);
   return true;
+}
+
+export async function recharge(data: { cardId: number; amount: number }) {
+  await insert(data);
 }
