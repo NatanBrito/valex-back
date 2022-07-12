@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import { Router } from "express";
 
 import schemaValidateMiddleware from "../middlewares/SchemaValidateMiddleware.js";
 
@@ -17,9 +17,6 @@ import { purchaseCardSchema } from "../schemas/purchaseSchema.js";
 import { rechargeCardSchema } from "../schemas/RechargeCardSchema.js";
 
 const cardRouter = Router();
-cardRouter.get("/", (req: Request, res: Response) => {
-  res.status(200).send("deploy funcionando");
-});
 cardRouter.post(
   "/create-card",
   schemaValidateMiddleware(bodySchema),
