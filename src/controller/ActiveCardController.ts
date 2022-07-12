@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { CardUpdateData } from "../repositories/cardRepository.js";
 import * as ActiveCardService from "../services/ActiveCardService.js";
 import * as CardService from "../services/CardService.js";
-
+import * as ValidationService from "../services/ValidationService.js";
 export async function activeCard(req: Request, res: Response) {
   const {
     cardNumber,
@@ -23,9 +23,9 @@ export async function activeCard(req: Request, res: Response) {
     CardHolderName,
     expirateDate
   );
-  ActiveCardService.ValidateExpireDate(verifyExistCardRegister.expirationDate);
+  ValidationService.ValidateExpireDate(verifyExistCardRegister.expirationDate);
 
-  const decrypt = ActiveCardService.descryptedCvc(
+  const decrypt = ValidationService.descrypted(
     verifyExistCardRegister.securityCode
   );
   if (!(decrypt == cvc)) {
@@ -35,7 +35,7 @@ export async function activeCard(req: Request, res: Response) {
   if (verifyExistCardRegister.password !== null) {
     return res.status(401).send("card has already been registered");
   }
-  const encryptPassword = CardService.encrypt(password);
+  const encryptPassword = ValidationService.encrypt(password);
   const card: CardUpdateData = {
     ...verifyExistCardRegister,
     password: encryptPassword,

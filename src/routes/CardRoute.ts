@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { activeCard } from "../controller/ActiveCardController.js";
 
+import { activeCard } from "../controller/ActiveCardController.js";
+import { blockCard } from "../controller/BlockCard.js";
 import { CreateCard } from "../controller/CreateCardController.js";
 import schemaValidateMiddleware from "../middlewares/SchemaValidateMiddleware.js";
 import { ActiveCardSchema } from "../schemas/activeCardSchema.js";
@@ -18,4 +19,6 @@ cardRouter.post(
   schemaValidateMiddleware(ActiveCardSchema),
   activeCard
 );
+cardRouter.post("/blockCard", blockCard);
+
 export default cardRouter;

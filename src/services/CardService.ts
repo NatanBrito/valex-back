@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import Cryptr from "cryptr";
 
 import {
   findByTypeAndEmployeeId,
@@ -33,11 +32,6 @@ export async function verifyAlreadyCardTypeExist(
 export function expireDateCard() {
   const date = dayjs().add(5, "year").format("MM-YY");
   return date;
-}
-export function encrypt(arg: string) {
-  const cryptr = new Cryptr(process.env.ENCRYPT);
-  const encryptedString = cryptr.encrypt(arg);
-  return encryptedString;
 }
 
 export async function InsertCard(card: CardInsertData) {
