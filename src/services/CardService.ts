@@ -1,11 +1,6 @@
 import dayjs from "dayjs";
 
-import {
-  findByTypeAndEmployeeId,
-  TransactionTypes,
-  insert,
-  CardInsertData,
-} from "../repositories/cardRepository.js";
+import * as cardRepository from "../repositories/cardRepository.js";
 
 export const nameFormatter = (name: string) => {
   const nameArr = name.toUpperCase().split(" ");
@@ -20,10 +15,10 @@ export const nameFormatter = (name: string) => {
 };
 
 export async function verifyAlreadyCardTypeExist(
-  type: TransactionTypes,
+  type: cardRepository.TransactionTypes,
   id: number
 ) {
-  const verifyCardType = await findByTypeAndEmployeeId(type, id);
+  const verifyCardType = await cardRepository.findByTypeAndEmployeeId(type, id);
   if (verifyCardType)
     throw { type: "conflict", status: 409, message: "already this card type" };
   return verifyCardType;
@@ -34,7 +29,21 @@ export function expireDateCard() {
   return date;
 }
 
-export async function InsertCard(card: CardInsertData) {
-  const CreateCard = await insert(card);
+export async function InsertCard(card: cardRepository.CardInsertData) {
+  const CreateCard = await cardRepository.insert(card);
   return CreateCard;
+}
+export async function verifyCardRegisterById(id: number) {
+  const verifyRegister = await cardRepository.findById(id);
+  if (!verifyRegister) {
+    throw { type: "Invalid", status: 401, message: "card register not found" };
+  }
+  return verifyRegister;
+}
+export async function BlockCard(
+  id: number,
+  card: cardRepository.CardUpdateData
+) {
+  await cardRepository.update(id, card);
+  return true;
 }
