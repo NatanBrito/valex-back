@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 
 import * as cardService from "../services/CardService.js";
-
 export default async function BankStatement(req: Request, res: Response) {
   const id: string = req.params.cardId;
   const cardId = parseInt(id);
