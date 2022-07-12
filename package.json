@@ -8,7 +8,10 @@
     "start": "ts-node ./src/index.ts",
     "dev": "nodemon ./src/index.ts"
   },
-  "keywords": [],
+  "keywords": [
+    "typescript",
+    "node"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
