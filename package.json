@@ -5,8 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "ts-node ./src/index.ts",
-    "dev": "nodemon ./src/index.ts"
+    "start": "node dist/index.js",
+    "dev": "nodemon ./src/index.ts",
+    "build": "tsc"
   },
   "keywords": [
     "typescript",
@@ -16,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "@faker-js/faker": "^7.3.0",
+    "@joi/date": "^2.1.0",
     "cors": "^2.8.5",
     "cryptr": "^6.0.3",
     "dayjs": "^1.11.3",
@@ -28,7 +30,6 @@
     "pg": "^8.7.3"
   },
   "devDependencies": {
-    "@joi/date": "^2.1.0",
     "@types/cryptr": "^4.0.1",
     "@types/express": "^4.17.13",
     "@types/node": "^18.0.3",
